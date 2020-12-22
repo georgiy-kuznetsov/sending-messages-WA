@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Form</title>
+</head>
+<body>
+    <style>
+        *, *::after, *::before {
+            margin: 0;
+            padding: 0;
+        }
+        html {
+            background-color: #282C31;
+            transition: 0.1s ease-in-out
+        }
+        body {
+            min-width: 100%;
+            min-height: 95vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+        .form {
+            display: flex;
+            flex-direction: column;
+            width: 800px;
+            position: relative;
+        }
+        .switcher-container {
+                position: absolute;
+                top: 0;
+                right: 0;
+                border: 2px solid #b2b2b2;
+                background-color: #1F1F1F; 
+                height: 16px;
+                width: 36px;
+                border-radius: 9px;
+            }
+                .switcher-container:hover {
+                    cursor: pointer;
+                }
+                .switcher {
+                    position: absolute;
+                    top: 2px;
+                    right: 2px;
+                    background-color: #e6e6e6; 
+                    height: 12px;
+                    width: 12px;
+                    border-radius: 9px;
+                }
+        .form__massage-label {
+            color: #F96800;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .smile-block {
+            background-color: #1F1F1F; 
+            border: 2px solid #b2b2b2;
+            border-radius: 5px;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+        }
+            .smile-block__list {
+                display: flex;
+                flex-wrap: wrap;
+            }
+                .smile-block__items {
+                    list-style: none;
+                    border-radius: 2px;
+                }
+                .smile-block__items:hover {
+                    cursor: pointer;
+                    background-color: #424253;
+                }
+        .form__input {
+            display: block;
+            background-color: #1F1F1F; 
+            border: 2px solid #b2b2b2;
+            border-radius: 5px;
+            padding: 5px 10px;
+            color: #ffffff;
+            font-size: 16px;
+        }
+            .form__input:active, .form__input:focus {
+                outline: none;
+                border: 2px solid #FD0E00;
+            }
+        .form__input-massage {
+            min-height: 150px;
+            vertical-align: top;
+            margin-bottom: 30px;
+        }
+        .form__input-phone {
+            min-height: 30px;
+        }
+        .form__submit-btn {
+            width: 200px;
+            display: block;
+            margin: 0 auto;
+            border: none;
+            outline: none;
+            background-color: #F96800;
+            border-radius: 5px;
+            color: #ffffff;
+            /*font-weight: bold;*/
+            font-size: 16px;
+            padding: 7px;
+            transition: 0.2s ease-in-out;
+        }
+        .form__submit-btn:hover, .form__submit-btn:active {
+            outline: none;
+            border: none;
+            background-color: #fd3b00;
+            cursor: pointer;
+            box-shadow: -5px 6px 40px -13px rgba(253, 47, 35, 0.35);
+        }
+            .form__submit-btn:active {
+                background-color: #942401;
+            }
+        .form__prevention {
+            min-height: 20px;
+            display: block;
+            margin-bottom: 20px;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        
+        @keyframes switcher {
+            from {
+                background-color: #b2b2b2;
+                right: 2px;
+                left: auto;
+            }
+            to {
+                background-color: #1F1F1F;
+                right: auto;
+                left: 2px;
+            }
+        }
+        @keyframes switcher-container {
+            from {
+                border: 2px solid #e6e6e6; 
+                background-color: #1F1F1F;
+                color: #ffffff;
+            }
+            to {
+                border: 2px solid #1F1F1F; 
+                background-color: #e6e6e6;
+                color: #000000;
+            }
+        }
+
+    </style>
+
+    <script defer>
+        window.onload = function() {
+            const $ = (identify) => {
+                return document.querySelector(identify);
+            }
+            
+            const switcher = $('.switcher-container');
+
+            switcher.addEventListener('click', function() {
+                const swetcherPoint = $('.switcher'),
+                    smileBlock = $('.smile-block'),
+                    formInput = document.querySelectorAll('.form__input'),
+                    html = $('html');
+                let switcherContainerStyle = 'border: 2px solid #1F1F1F; background-color: #e6e6e6; color: #000000;',
+                    switcherStyle = 'background-color: #1F1F1F; right: auto; left: 2px;',
+                    switcherContainerStyleReverse = 'border: 2px solid #e6e6e6; background-color: #1F1F1F; color: #ffffff;',
+                    switcherStyleReverse = 'background-color: #b2b2b2; right: 2pяx; left: auto;';
+
+                if ( this.dataset.mode === 'dark' ) {
+                    this.style = switcherContainerStyle;
+                    swetcherPoint.style = switcherStyle;
+                    smileBlock.style = switcherContainerStyle;
+                    for (let i = 0; i < formInput.length; i++) {
+                        formInput[i].style = switcherContainerStyle;
+                    }
+                    html.style.backgroundColor = '#ffffff';
+                    this.dataset.mode = 'light';
+                } else if ( this.dataset.mode === 'light' ) {
+                    this.style = switcherContainerStyleReverse;
+                    swetcherPoint.style = switcherStyleReverse;
+                    smileBlock.style = switcherContainerStyleReverse;
+                    for (let i = 0; i < formInput.length; i++) {
+                        formInput[i].style = switcherContainerStyleReverse;
+                    }
+                    html.style.backgroundColor = '#282C31';
+                    this.dataset.mode = 'dark';
+                };
+            });
+
+            function fallowWhatsApp(evnt) {
+                let link, whatsAppWindow, flag = true,
+                    massageInput = $('.form__input-massage'),
+                    phoneInput = $('.form__input-phone'),
+                    massage = massageInput.value.replace(' ', '%20').trim(),
+                    phone = phoneInput.value.replace(/[ \+\(\)\-]{1,}/g, '').trim();
+                const prevention = $('.form__prevention');
+
+                if ( phone[0] === '8' && phone.length > 10 ) {
+                    phone = phone.split('');
+                    phone.splice(0, 1, '7');
+                    phone = phone.join('');
+                } else if ( phone.length === 10 ) {
+                    phone = '7' + phone;
+                } else if ( phone.length <= 10 || phone.search(/[a-zA-Z!@#\$]/) > 0 ) {
+                    prevention.style.color = '#ff0000';
+                    prevention.innerHTML = 'Проверьте правильность введенных данных';
+                    flag = false;
+                };
+
+                if ( evnt != null ) evnt.preventDefault();
+                
+                if ( massage != '' && phone != '' && flag ) {
+                    link = `https://api.whatsapp.com/send?phone=${phone}&text=${massage}`;
+                    phoneInput.value = '';
+                    whatsAppWindow = window.open(link);
+                    console.log('1',link);
+                    let timeOut = setTimeout(function() {
+                        prevention.innerHTML = '';
+                        whatsAppWindow.close();
+                        clearInterval(timeOut);
+                    }, 10000);
+                } else if (massage === '' && phone != '' && flag ){
+                    link = `https://api.whatsapp.com/send?phone=${phone}`;
+                    phoneInput.value = '';
+                    console.log('2',link);
+                    whatsAppWindow = window.open(link);
+                    let timeOut = setTimeout(function() {
+                        prevention.innerHTML = '';
+                        prevention.setAttribute('style', '');
+                        whatsAppWindow.close();
+                        clearInterval(timeOut);
+                    }, 10000);
+                };
+                return ( flag )? 0 : -1;
+            };
+
+            $('.form__submit-btn').addEventListener('click', fallowWhatsApp);
+
+            const smileList = document.querySelectorAll('.smile-block__items');
+            if ( smileList.length != 0 ) {
+                for ( let i = 0; i < smileList.length; i++ ) {
+                    smileList[i].addEventListener('click', function() {
+                        let smile = this.innerHTML;
+                        let massage;
+                        let massageInput = $('.form__input-massage');
+                        massage = massageInput.value;
+                        massageInput.value = `${massage}${smile}`;
+                    });
+                };
+            };
+        };
+    </script>
+
+    <form class="form" action="#">
+        <label class="form__massage-label" for="massage">Сообщение</label>
+        <div class="switcher-container" data-mode="dark">
+            <div class="switcher"></div>
+        </div>
+        <div class="smile-block">
+            <ul class="smile-block__list">
+                <li class="smile-block__items">😀</li>
+                <li class="smile-block__items">😃</li>
+                <li class="smile-block__items">😄</li>
+                <li class="smile-block__items">😁</li>
+                <li class="smile-block__items">😆</li>
+                <li class="smile-block__items">😅</li>
+                <li class="smile-block__items">😂</li>
+                <li class="smile-block__items">🤣</li>
+                <li class="smile-block__items">😊</li>
+                <li class="smile-block__items">😇</li>
+                <li class="smile-block__items">🙂</li>
+                <li class="smile-block__items">🙃</li>
+                <li class="smile-block__items">😉</li>
+                <li class="smile-block__items">😌</li>
+                <li class="smile-block__items">😍</li>
+                <li class="smile-block__items">🥰</li>
+                <li class="smile-block__items">😘</li>
+                <li class="smile-block__items">😚</li>
+                <li class="smile-block__items">😋</li>
+                <li class="smile-block__items">😛</li>
+                <li class="smile-block__items">😝</li>
+                <li class="smile-block__items">😜</li>
+                <li class="smile-block__items">🤪</li>
+                <li class="smile-block__items">🤨</li>
+                <li class="smile-block__items">🧐</li>
+                <li class="smile-block__items">🤓</li>
+                <li class="smile-block__items">😎</li>
+                <li class="smile-block__items">🤩</li>
+                <li class="smile-block__items">🥳</li>
+                <li class="smile-block__items">😏</li>
+                <li class="smile-block__items">😒</li>
+                <li class="smile-block__items">😞</li>
+                <li class="smile-block__items">😔</li>
+                <li class="smile-block__items">😟</li>
+                <li class="smile-block__items">😕</li>
+                <li class="smile-block__items">🙁</li>
+                <li class="smile-block__items">☹️</li>
+                <li class="smile-block__items">😣</li>
+                <li class="smile-block__items">😖</li>
+                <li class="smile-block__items">😫</li>
+                <li class="smile-block__items">😩</li>
+                <li class="smile-block__items">🥺</li>
+                <li class="smile-block__items">😢</li>
+                <li class="smile-block__items">😭</li>
+                <li class="smile-block__items">😤</li>
+                <li class="smile-block__items">😠</li>
+                <li class="smile-block__items">😡</li>
+                <li class="smile-block__items">🤬</li>
+                <li class="smile-block__items">🤯</li>
+                <li class="smile-block__items">😳</li>
+                <li class="smile-block__items">🥵</li>
+                <li class="smile-block__items">🥶</li>
+                <li class="smile-block__items">😱</li>
+                <li class="smile-block__items">😨</li>
+                <li class="smile-block__items">😰</li>
+                <li class="smile-block__items">😥</li>
+                <li class="smile-block__items">😓</li>
+                <li class="smile-block__items">🤗</li>
+                <li class="smile-block__items">🤔</li>
+                <li class="smile-block__items">🤭</li>
+                <li class="smile-block__items">🤫</li>
+                <li class="smile-block__items">🤥</li>
+                <li class="smile-block__items">😶</li>
+                <li class="smile-block__items">😐</li>
+                <li class="smile-block__items">😑</li>
+                <li class="smile-block__items">😬</li>
+                <li class="smile-block__items">🙄</li>
+                <li class="smile-block__items">😯</li>
+                <li class="smile-block__items">😦</li>
+                <li class="smile-block__items">😧</li>
+                <li class="smile-block__items">😮</li>
+                <li class="smile-block__items">😲</li>
+                <li class="smile-block__items">🥱</li>
+                <li class="smile-block__items">😴</li>
+                <li class="smile-block__items">🤤</li>
+                <li class="smile-block__items">😪</li>
+                <li class="smile-block__items">😵</li>
+                <li class="smile-block__items">🤐</li>
+                <li class="smile-block__items">🥴</li>
+                <li class="smile-block__items">🤢</li>
+                <li class="smile-block__items">🤮</li>
+                <li class="smile-block__items">🤧</li>
+                <li class="smile-block__items">😷</li>
+                <li class="smile-block__items">🤒</li>
+                <li class="smile-block__items">🤕</li>
+                <li class="smile-block__items">🤑</li>
+                <li class="smile-block__items">🤠</li>
+                <li class="smile-block__items">😈</li>
+                <li class="smile-block__items">👿</li>
+                <li class="smile-block__items">💩</li>
+                <li class="smile-block__items">👻</li>
+                <li class="smile-block__items">👽</li>
+                <li class="smile-block__items">🤲</li>
+                <li class="smile-block__items">👐</li>
+                <li class="smile-block__items">🙌</li>
+                <li class="smile-block__items">👏</li>
+                <li class="smile-block__items">🤝</li>
+                <li class="smile-block__items">👍</li>
+                <li class="smile-block__items">👎</li>
+                <li class="smile-block__items">👊</li>
+                <li class="smile-block__items">✊</li>
+                <li class="smile-block__items">🤛</li>
+                <li class="smile-block__items">🤜</li>
+                <li class="smile-block__items">🤞</li>
+                <li class="smile-block__items">✌️</li>
+                <li class="smile-block__items">🤟</li>
+                <li class="smile-block__items">👌</li>
+                <li class="smile-block__items">🤏</li>
+                <li class="smile-block__items">👈</li>
+                <li class="smile-block__items">👉</li>
+                <li class="smile-block__items">👆</li>
+                <li class="smile-block__items">👇</li>
+                <li class="smile-block__items">☝️</li>
+                <li class="smile-block__items">✋</li>
+                <li class="smile-block__items">🤚</li>
+                <li class="smile-block__items">👋</li>
+                <li class="smile-block__items">🤙</li>
+                <li class="smile-block__items">💪</li>
+                <li class="smile-block__items">🖕</li>
+                <li class="smile-block__items">💥</li>
+                <li class="smile-block__items">🔥</li>
+                <li class="smile-block__items">💫</li>
+            </ul>
+        </div>
+        <textarea class="form__input-massage form__input" type="text" id="massage"></textarea>
+        <label class="form__massage-label" for="phone">Номер телефона</label>
+        <input class="form__input-phone form__input" type="text" id="phone" required>
+        <span class="form__prevention"></span>
+        <button class="form__submit-btn" type="submit">Перейти в чат</button>
+    </form>
+</body>
+</html>
