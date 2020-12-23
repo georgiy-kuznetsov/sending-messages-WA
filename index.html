@@ -184,13 +184,13 @@
                     html.style.backgroundColor = '#ffffff';
                     this.dataset.mode = 'light';
                 } else if ( this.dataset.mode === 'light' ) {
-                    this.style = switcherContainerStyleReverse;
-                    swetcherPoint.style = switcherStyleReverse;
-                    smileBlock.style = switcherContainerStyleReverse;
+                    this.style = '';
+                    swetcherPoint.style = '';
+                    smileBlock.style = '';
                     for (let i = 0; i < formInput.length; i++) {
-                        formInput[i].style = switcherContainerStyleReverse;
+                        formInput[i].style = '';
                     }
-                    html.style.backgroundColor = '#282C31';
+                    html.style.backgroundColor = '';
                     this.dataset.mode = 'dark';
                 };
             });
